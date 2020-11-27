@@ -1,4 +1,4 @@
-package frame;
+package duolingo.main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,6 +7,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import duolingo.panel.AdministrarCursos;
+
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
@@ -55,7 +58,7 @@ public class MainFrame extends JFrame {
 		setIconImage(new ImageIcon("src/images/duolingo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
-		contentPane.setPreferredSize(new Dimension((int) this.getToolkit().getScreenSize().getWidth() / 2, (int) this.getToolkit().getScreenSize().getHeight() / 2));
+		contentPane.setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.5)));
 		contentPane.setBorder(new EmptyBorder(25, 25, 25, 25));
 		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		setContentPane(contentPane);
