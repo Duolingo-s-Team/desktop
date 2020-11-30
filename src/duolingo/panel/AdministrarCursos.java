@@ -112,6 +112,7 @@ public class AdministrarCursos extends JPanel {
 		buttonLanguagePanel.setLayout(new GridLayout(2, 1, 0, 15));
 		
 		JButton createCourse = new JButton("Crear curso"); 
+		createCourse.setEnabled(false);
 		buttonLanguagePanel.add(createCourse);
 		buttonsFirstSection.add(createCourse);
 		
@@ -133,31 +134,45 @@ public class AdministrarCursos extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				courseManager = new CourseImpl();
+				
+				System.out.println(!((String) originLanguageCombo.getSelectedItem()).equals(((String) destinationLanguageCombo.getSelectedItem())));
+				System.out.println((String) originLanguageCombo.getSelectedItem() + ", " +(String) destinationLanguageCombo.getSelectedItem());
 				 
-				if ((String) originLanguageCombo.getSelectedItem() != (String) destinationLanguageCombo.getSelectedItem()) {
+				if (!((String) originLanguageCombo.getSelectedItem()).equals(((String) destinationLanguageCombo.getSelectedItem()))) {
 					
 					String origin_language = ((String) originLanguageCombo.getSelectedItem()).substring(0, ((String) originLanguageCombo.getSelectedItem()).lastIndexOf(" "));
 					String destination_language = ((String) destinationLanguageCombo.getSelectedItem()).substring(0, ((String) destinationLanguageCombo.getSelectedItem()).lastIndexOf(" "));
 					
 					Course course = courseManager.getCourseByLanguage(origin_language, destination_language);
-					if (!filteredCourses.contains(course.getCourse_lang_from() + " - " + course.getCourse_lang_to())) {
-						filteredCourses.add(course.getCourse_lang_from() + " - " + course.getCourse_lang_to());
-					}
 					
-					courseList.setModel(new AbstractListModel<String>() {
-
-						@Override
-						public int getSize() {
-							return filteredCourses.size();
-						}
-
-						@Override
-						public String getElementAt(int index) {
-							return filteredCourses.get(index);
+					if (course == null) {
+						createCourse.setEnabled(true);
+					} else {
+						if (!filteredCourses.contains(course.getCourse_lang_from() + " - " + course.getCourse_lang_to())) {
+							filteredCourses.add(course.getCourse_lang_from() + " - " + course.getCourse_lang_to());
 						}
 						
-					});
+						updateJList(courseList, filteredCourses);
+					}
+					
 				}
+			}
+		});
+		
+		createCourse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ICourse courseManager = new CourseImpl();
+				courseManager.insertCourse(new Course(((String) originLanguageCombo.getSelectedItem()).substring(0, ((String) originLanguageCombo.getSelectedItem()).lastIndexOf(" "))
+						, ((String) destinationLanguageCombo.getSelectedItem()).substring(0, ((String) destinationLanguageCombo.getSelectedItem()).lastIndexOf(" "))));
+				
+				filteredCourses.add(((String) originLanguageCombo.getSelectedItem()).substring(0, ((String) originLanguageCombo.getSelectedItem()).lastIndexOf(" "))
+						+ " - " +((String) destinationLanguageCombo.getSelectedItem()).substring(0, ((String) destinationLanguageCombo.getSelectedItem()).lastIndexOf(" ")));
+				
+				updateJList(courseList, filteredCourses);
+				
+				createCourse.setEnabled(false);
 			}
 		});
 		
@@ -312,6 +327,24 @@ public class AdministrarCursos extends JPanel {
 			j.setFocusable(false);
 		}
 
+	}
+	
+	// Methods
+	
+	public static void updateJList(JList<String> list, ArrayList<String> data) {
+		list.setModel(new AbstractListModel<String>() {
+
+			@Override
+			public int getSize() {
+				return data.size();
+			}
+
+			@Override
+			public String getElementAt(int index) {
+				return data.get(index);
+			}
+			
+		});
 	}
 	
 	// -----------------------> TESTEO <--------------------------- \\
