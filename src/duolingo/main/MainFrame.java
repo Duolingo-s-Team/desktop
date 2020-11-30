@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import duolingo.panel.AdministrarCursos;
+import implementations.UserImpl;
+import interfaces.IUser;
 
 public class MainFrame extends JFrame {
 
@@ -36,6 +38,8 @@ public class MainFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					IUser userManager = new UserImpl();
+					userManager.getAllUsers();
 					MainFrame frame = new MainFrame();
 					frame.pack();
 					frame.setMinimumSize(new Dimension((int) (toolkit.getScreenSize().getWidth() / 1.5), (int) (toolkit.getScreenSize().getHeight() / 1.75 + 200)));
@@ -124,7 +128,5 @@ public class MainFrame extends JFrame {
 			});
 		}
 	}
-	
-	
 
 }

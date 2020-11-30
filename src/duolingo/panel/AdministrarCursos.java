@@ -140,9 +140,6 @@ public class AdministrarCursos extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				courseManager = new CourseImpl();
-				
-				System.out.println(!((String) originLanguageCombo.getSelectedItem()).equals(((String) destinationLanguageCombo.getSelectedItem())));
-				System.out.println((String) originLanguageCombo.getSelectedItem() + ", " +(String) destinationLanguageCombo.getSelectedItem());
 				 
 				if (!((String) originLanguageCombo.getSelectedItem()).equals(((String) destinationLanguageCombo.getSelectedItem()))) {
 					
@@ -286,9 +283,10 @@ public class AdministrarCursos extends JPanel {
 				
                 selection = courseList.getSelectedValue();
                 
-                filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(selection.substring(0, selection.indexOf(" ")), selection.substring(selection.lastIndexOf(" ") + 1, selection.length())).getCourse_id());
-                
-                updateJList(categoryList, filteredCategories);
+                if (selection != null) {
+                	 filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(selection.substring(0, selection.indexOf(" ")), selection.substring(selection.lastIndexOf(" ") + 1, selection.length())).getCourse_id());
+                     updateJList(categoryList, filteredCategories);
+				}
                 
             }
         });
