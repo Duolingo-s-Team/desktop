@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,8 +24,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import duolingo.util.languageList;
+import implementations.CourseImpl;
+import interfaces.ICourse;
+import models.Course;
 
 public class AdministrarCursos extends JPanel {
+	
+	private JList<String> courseList;
+	private JList<String> categoryList;
+	private JList<String> levelList;
+	
+	private ArrayList<String> filteredCourses = new ArrayList<>();
 
 	/**
 	 * Create the panel.
@@ -72,9 +82,9 @@ public class AdministrarCursos extends JPanel {
 		originLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		originLanguage.add(originLabel);
 		
-		JComboBox<String> comboBox = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
-		originLabel.setLabelFor(comboBox);
-		originLanguage.add(comboBox);
+		JComboBox<String> originLanguageCombo = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
+		originLabel.setLabelFor(originLanguageCombo);
+		originLanguage.add(originLanguageCombo);
 		
 		JPanel destinationLanguage = new JPanel();
 		contentFirstSection.add(destinationLanguage);
@@ -86,9 +96,9 @@ public class AdministrarCursos extends JPanel {
 		destinationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		destinationLanguage.add(destinationLabel);
 		
-		JComboBox<String> comboBox_1 = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
-		destinationLabel.setLabelFor(comboBox_1);
-		destinationLanguage.add(comboBox_1);
+		JComboBox<String> destinationLanguageCombo = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
+		destinationLabel.setLabelFor(destinationLanguageCombo);
+		destinationLanguage.add(destinationLanguageCombo);
 		
 		JPanel buttonLanguageContainer = new JPanel();
 		contentFirstSection.add(buttonLanguageContainer);
@@ -116,6 +126,42 @@ public class AdministrarCursos extends JPanel {
 			j.setFocusable(false);
 		}
 		
+		applyFilter.addActionListener(new ActionListener() {
+			
+			ICourse courseManager;
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				courseManager = new CourseImpl();
+				 
+				if ((String) originLanguageCombo.getSelectedItem() != (String) destinationLanguageCombo.getSelectedItem()) {
+					
+					String origin_language = ((String) originLanguageCombo.getSelectedItem()).substring(0, ((String) originLanguageCombo.getSelectedItem()).lastIndexOf(" "));
+					String destination_language = ((String) destinationLanguageCombo.getSelectedItem()).substring(0, ((String) destinationLanguageCombo.getSelectedItem()).lastIndexOf(" "));
+					
+					Course course = courseManager.getCourseByLanguage(origin_language, destination_language);
+					if (!filteredCourses.contains(course.getCourse_lang_from() + " - " + course.getCourse_lang_to())) {
+						filteredCourses.add(course.getCourse_lang_from() + " - " + course.getCourse_lang_to());
+					}
+					
+					courseList.setModel(new AbstractListModel<String>() {
+
+						@Override
+						public int getSize() {
+							return filteredCourses.size();
+						}
+
+						@Override
+						public String getElementAt(int index) {
+							return filteredCourses.get(index);
+						}
+						
+					});
+				}
+			}
+		});
+		
+		
 		// ===== SEGUNDA SECCION =====
 		
 		JPanel secondSection = new JPanel();
@@ -140,7 +186,7 @@ public class AdministrarCursos extends JPanel {
 		courseListPanel.setPreferredSize(new Dimension(400, 225));
 		courseListPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
-		JList<String> courseList = new JList<>(); listsSecondSection.add(courseList);
+		courseList = new JList<>(); listsSecondSection.add(courseList);
 		courseList.setVisibleRowCount(12);
 		courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		courseListPanel.add(courseList);
@@ -160,7 +206,7 @@ public class AdministrarCursos extends JPanel {
 		categoryListPanel.setPreferredSize(new Dimension(400, 225));
 		categoryListPanel.setLayout(new GridLayout(1, 1, 0, 15));
 		
-		JList<String> categoryList = new JList<>(); listsSecondSection.add(categoryList);
+		categoryList = new JList<>(); listsSecondSection.add(categoryList);
 		categoryList.setVisibleRowCount(12);
 		categoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		categoryListPanel.add(categoryList);
@@ -184,7 +230,7 @@ public class AdministrarCursos extends JPanel {
 		levelListPanel.setPreferredSize(new Dimension(400, 225));
 		levelListPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
-		JList<String> levelList = new JList<>(); listsSecondSection.add(levelList);
+		levelList = new JList<>(); listsSecondSection.add(levelList);
 		levelList.setVisibleRowCount(12);
 		levelList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		levelListPanel.add(levelList);
