@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -24,7 +26,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import duolingo.util.languageList;
+import implementations.CategoryImpl;
 import implementations.CourseImpl;
+import interfaces.ICategory;
 import interfaces.ICourse;
 import models.Course;
 
@@ -35,6 +39,7 @@ public class AdministrarCursos extends JPanel {
 	private JList<String> levelList;
 	
 	private ArrayList<String> filteredCourses = new ArrayList<>();
+	private ArrayList<String> filteredCategories = new ArrayList<>();
 
 	/**
 	 * Create the panel.
@@ -271,13 +276,23 @@ public class AdministrarCursos extends JPanel {
 		}
 		
 		courseList.addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// PENDIENTE (Spec 19: Seleccionar una curso de la JList)
+		            
+            String selection;
+            
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+            	
+            	ICourse courseManager = new CourseImpl();
+				ICategory categoryManager = new CategoryImpl();
 				
-			}
-		});
+                selection = courseList.getSelectedValue();
+                
+                filteredCategories.add(categoryManager.getCategoriesByCourseId(courseManager.getCourseByLanguage(selection.substring(0, selection.indexOf(" ")), selection.substring(selection.lastIndexOf(" ") + 1, selection.length())).getCourse_id()).toString());
+                
+                updateJList(categoryList, filteredCategories);
+                
+            }
+        });
 		
 		categoryList.addListSelectionListener(new ListSelectionListener() {
 			
