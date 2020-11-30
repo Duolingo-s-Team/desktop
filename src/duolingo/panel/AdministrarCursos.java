@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -24,8 +25,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import duolingo.util.languageList;
+import implementations.CategoryImpl;
 import implementations.CourseImpl;
+import interfaces.ICategory;
 import interfaces.ICourse;
+import models.Category;
 import models.Course;
 
 public class AdministrarCursos extends JPanel {
@@ -292,7 +296,11 @@ public class AdministrarCursos extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// PENDIENTE (Spec 20: Pulsar el boton de "Agregar categoria")
+				ICourse courseManager = new CourseImpl();
+				ICategory categoryManager = new CategoryImpl();
+				categoryManager.insertCategory(new Category(JOptionPane.showInputDialog(AdministrarCursos.this, "Inserte una nueva categoria:", "Categorias", JOptionPane.DEFAULT_OPTION)
+						, courseManager.getCourseByLanguage(courseList.getSelectedValue().substring(0, courseList.getSelectedValue().indexOf(" "))
+								, courseList.getSelectedValue().substring(courseList.getSelectedValue().lastIndexOf(" ") + 1, courseList.getSelectedValue().length()))));
 				
 			}
 		});
@@ -346,6 +354,8 @@ public class AdministrarCursos extends JPanel {
 			
 		});
 	}
+	
+	
 	
 	// -----------------------> TESTEO <--------------------------- \\
 	
