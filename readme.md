@@ -1,1 +1,1 @@
-Desktop contains the desktop app to control the serer and de database among other stuff.
+Desktop contains the desktop app to control the server and the database among other stuff.
