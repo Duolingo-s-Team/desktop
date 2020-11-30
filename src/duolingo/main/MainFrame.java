@@ -38,8 +38,8 @@ public class MainFrame extends JFrame {
 				try {
 					MainFrame frame = new MainFrame();
 					frame.pack();
+					frame.setMinimumSize(new Dimension((int) (toolkit.getScreenSize().getWidth() / 1.5), (int) (toolkit.getScreenSize().getHeight() / 1.75 + 200)));
 					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					frame.setMinimumSize(new Dimension((int) (toolkit.getScreenSize().getWidth() / 1.5), (int) (toolkit.getScreenSize().getHeight() / 1.5)));
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {

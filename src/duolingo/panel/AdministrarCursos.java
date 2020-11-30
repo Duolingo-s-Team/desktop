@@ -7,9 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -47,7 +46,7 @@ public class AdministrarCursos extends JPanel {
 	 * Create the panel.
 	 */
 	public AdministrarCursos() {
-		this.setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.75), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75)));
+		setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.75), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75) + 100));
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 		
 		// ===== PANEL PRINCIPAL =====
@@ -283,13 +282,11 @@ public class AdministrarCursos extends JPanel {
             
             @Override
             public void valueChanged(ListSelectionEvent e) {
-            	
             	ICourse courseManager = new CourseImpl();
-				ICategory categoryManager = new CategoryImpl();
 				
                 selection = courseList.getSelectedValue();
                 
-                filteredCategories.add(categoryManager.getCategoriesByCourseId(courseManager.getCourseByLanguage(selection.substring(0, selection.indexOf(" ")), selection.substring(selection.lastIndexOf(" ") + 1, selection.length())).getCourse_id()).toString());
+                filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(selection.substring(0, selection.indexOf(" ")), selection.substring(selection.lastIndexOf(" ") + 1, selection.length())).getCourse_id());
                 
                 updateJList(categoryList, filteredCategories);
                 
@@ -307,14 +304,19 @@ public class AdministrarCursos extends JPanel {
 		
 		addCategoryButton.addActionListener(new ActionListener() {
 			
+			Course course;
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ICourse courseManager = new CourseImpl();
 				ICategory categoryManager = new CategoryImpl();
-				categoryManager.insertCategory(new Category(JOptionPane.showInputDialog(AdministrarCursos.this, "Inserte una nueva categoria:", "Categorias", JOptionPane.DEFAULT_OPTION)
-						, courseManager.getCourseByLanguage(courseList.getSelectedValue().substring(0, courseList.getSelectedValue().indexOf(" "))
-								, courseList.getSelectedValue().substring(courseList.getSelectedValue().lastIndexOf(" ") + 1, courseList.getSelectedValue().length()))));
+				course = courseManager.getCourseByLanguage(courseList.getSelectedValue().substring(0, courseList.getSelectedValue().indexOf(" "))
+						, courseList.getSelectedValue().substring(courseList.getSelectedValue().lastIndexOf(" ") + 1, courseList.getSelectedValue().length()));
+				categoryManager.insertCategory(new Category(JOptionPane.showInputDialog(AdministrarCursos.this, "Inserte una nueva categoria:", "Categorias", JOptionPane.DEFAULT_OPTION), course));
 				
+				filteredCategories = getCategoryNamesByCourseId(course.getCourse_id());
+				
+				updateJList(categoryList, filteredCategories);
 			}
 		});
 		
@@ -368,7 +370,17 @@ public class AdministrarCursos extends JPanel {
 		});
 	}
 	
-	
+	public static ArrayList<String> getCategoryNamesByCourseId(long course_id) {
+		ICategory categoryManager = new CategoryImpl();
+		List<Category> categories = categoryManager.getCategoriesByCourseId(course_id);
+		ArrayList<String> categoryNames = new ArrayList<>();
+		
+		for (Category c : categories) {
+			categoryNames.add(c.getCategory_name());
+		}
+		
+		return categoryNames;
+	}
 	
 	// -----------------------> TESTEO <--------------------------- \\
 	
@@ -384,17 +396,6 @@ public class AdministrarCursos extends JPanel {
 //		return courseNames;
 //	}
 //	
-//	public static String[] getCategoryNamesByCourseId(long course_id) {
-//		ICategory categoryManager = new CategoryImpl();
-//		List<Category> categories = categoryManager.getCategoriesByCourseId(course_id);
-//		String[] categoryNames = new String[categories.size()];
-//		
-//		for (int i = 0; i < categoryNames.length; i++) {
-//			categoryNames[i] = categories.get(i).getCategory_name();
-//		}
-//		
-//		return categoryNames;
-//	}
 //	
 //	public static String[] getLevelNamesByCategoryId(long category_id) {
 //		ILevel levelManager = new LevelImpl();
