@@ -133,6 +133,22 @@ public class AdministrarCursos extends JPanel {
 			j.setFocusable(false);
 		}
 		
+		destinationLanguageCombo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createCourse.setEnabled(false);
+			}
+		});
+		
+		originLanguageCombo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createCourse.setEnabled(false);
+			}
+		});
+		
 		applyFilter.addActionListener(new ActionListener() {
 			
 			ICourse courseManager;
@@ -152,6 +168,7 @@ public class AdministrarCursos extends JPanel {
 						createCourse.setEnabled(true);
 					} else {
 						if (!filteredCourses.contains(course.getCourse_lang_from() + " - " + course.getCourse_lang_to())) {
+							filteredCourses.clear();
 							filteredCourses.add(course.getCourse_lang_from() + " - " + course.getCourse_lang_to());
 						}
 						
@@ -179,7 +196,7 @@ public class AdministrarCursos extends JPanel {
 			}
 		});
 		
-		
+
 		// ===== SEGUNDA SECCION =====
 		
 		JPanel secondSection = new JPanel();
