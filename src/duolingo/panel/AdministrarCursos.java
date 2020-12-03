@@ -28,10 +28,16 @@ import javax.swing.event.ListSelectionListener;
 import duolingo.util.languageList;
 import implementations.CategoryImpl;
 import implementations.CourseImpl;
+import implementations.LevelImpl;
+import implementations.UserImpl;
 import interfaces.ICategory;
 import interfaces.ICourse;
+import interfaces.ILevel;
+import interfaces.IUser;
 import models.Category;
 import models.Course;
+import models.Level;
+import models.User;
 
 public class AdministrarCursos extends JPanel {
 	
@@ -41,6 +47,14 @@ public class AdministrarCursos extends JPanel {
 	
 	private ArrayList<String> filteredCourses = new ArrayList<>();
 	private ArrayList<String> filteredCategories = new ArrayList<>();
+	private ArrayList<String> filteredLevel = new ArrayList<>();
+	
+	ICourse courseManager = new CourseImpl();
+	ICategory categoryManager = new CategoryImpl();
+	ILevel levelManager = new LevelImpl();
+	
+	private String categorySelection;
+	private String levelSelection;
 
 	/**
 	 * Create the panel.
@@ -151,11 +165,8 @@ public class AdministrarCursos extends JPanel {
 		
 		applyFilter.addActionListener(new ActionListener() {
 			
-			ICourse courseManager;
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				courseManager = new CourseImpl();
 				 
 				if (!((String) originLanguageCombo.getSelectedItem()).equals(((String) destinationLanguageCombo.getSelectedItem()))) {
 					
@@ -183,7 +194,6 @@ public class AdministrarCursos extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ICourse courseManager = new CourseImpl();
 				courseManager.insertCourse(new Course(((String) originLanguageCombo.getSelectedItem()).substring(0, ((String) originLanguageCombo.getSelectedItem()).lastIndexOf(" "))
 						, ((String) destinationLanguageCombo.getSelectedItem()).substring(0, ((String) destinationLanguageCombo.getSelectedItem()).lastIndexOf(" "))));
 				
@@ -272,6 +282,7 @@ public class AdministrarCursos extends JPanel {
 		
 		JButton addLevelButton = new JButton("Agregar Nivel");
 		addLevelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addLevelButton.setEnabled(false);
 		levelsSecondSection.add(addLevelButton);
 		
 		ArrayList<JButton> buttonsSecondSection = new ArrayList<>();
@@ -292,16 +303,15 @@ public class AdministrarCursos extends JPanel {
 		
 		courseList.addListSelectionListener(new ListSelectionListener() {
 		            
-            String selection;
+            
             
             @Override
             public void valueChanged(ListSelectionEvent e) {
-            	ICourse courseManager = new CourseImpl();
 				
-                selection = courseList.getSelectedValue();
+                categorySelection = courseList.getSelectedValue();
                 
-                if (selection != null) {
-                	 filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(selection.substring(0, selection.indexOf(" ")), selection.substring(selection.lastIndexOf(" ") + 1, selection.length())).getCourse_id());
+                if (categorySelection != null) {
+                	filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(categorySelection.substring(0, categorySelection.indexOf(" ")), categorySelection.substring(categorySelection.lastIndexOf(" ") + 1, categorySelection.length())).getCourse_id());
                      updateJList(categoryList, filteredCategories);
 				}
                 
@@ -310,10 +320,21 @@ public class AdministrarCursos extends JPanel {
 		
 		categoryList.addListSelectionListener(new ListSelectionListener() {
 			
+			
+			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// Sprint 3? (Seleccionar una categoria de la JList)
 				
+				categorySelection = categoryList.getSelectedValue();
+				
+				if (categorySelection != null) {
+					
+					Category selectedCategory = categoryManager.getCategoryByName(categoryList.getSelectedValue().toString());
+					filteredLevel = getLevelNamesByCategoryId(selectedCategory.getCategory_id());
+					
+					updateJList(levelList, filteredLevel);
+					addLevelButton.setEnabled(true);
+				}
 			}
 		});
 		
@@ -334,6 +355,22 @@ public class AdministrarCursos extends JPanel {
 				updateJList(categoryList, filteredCategories);
 			}
 		});
+		
+		addLevelButton.addActionListener(new ActionListener() {
+			
+			Category category;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				category = categoryManager.getCategoryByName(categoryList.getSelectedValue());
+				levelManager.insertLevel(new Level(JOptionPane.showInputDialog(AdministrarCursos.this, "Inserte un nuevo nivel:", "Nivel", JOptionPane.DEFAULT_OPTION), category));
+				filteredLevel = getLevelNamesByCategoryId(category.getCategory_id());
+				
+				updateJList(levelList, filteredLevel);
+			}
+		});
+		
+		
 		
 		
 		// ===== TERCERA SECCION =====
@@ -364,6 +401,16 @@ public class AdministrarCursos extends JPanel {
 			j.setFocusPainted(false);
 			j.setFocusable(false);
 		}
+		
+		addQuestion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+				
+				// Abrir panel de Afegir Exercici
+				
+			}
+		});
 
 	}
 	
@@ -397,6 +444,30 @@ public class AdministrarCursos extends JPanel {
 		return categoryNames;
 	}
 	
+	public static String[] getCategoryName() {
+	ICategory categoryManager = new CategoryImpl();
+	List<Category> categories = categoryManager.getAllCategories();
+	String[] categoryNames = new String[categories.size()];
+	
+	for (int i = 0; i < categoryNames.length; i++) {
+		categoryNames[i] = categories.get(i).getCategory_name();
+	}
+	
+	return categoryNames;
+}
+	
+	public static ArrayList<String> getLevelNamesByCategoryId(long category_id) {
+		ILevel levelManager = new LevelImpl();
+		List<Level> levels = levelManager.getLevelsByCategoryId(category_id);
+		ArrayList<String> levelNames = new ArrayList<>();
+		
+		for (Level l : levels) {
+			levelNames.add(l.getLevel_name());
+		}
+		
+		return levelNames;
+	}
+	
 	// -----------------------> TESTEO <--------------------------- \\
 	
 //	public static String[] getCourseNames() {
@@ -412,16 +483,6 @@ public class AdministrarCursos extends JPanel {
 //	}
 //	
 //	
-//	public static String[] getLevelNamesByCategoryId(long category_id) {
-//		ILevel levelManager = new LevelImpl();
-//		List<Level> levels = levelManager.getLevelsByCategoryId(category_id);
-//		String[] levelNames = new String[levels.size()];
-//		
-//		for (int i = 0; i < levelNames.length; i++) {
-//			levelNames[i] = levels.get(i).getLevel_name();
-//		}
-//		
-//		return levelNames;
-//	}
+	
 
 }
