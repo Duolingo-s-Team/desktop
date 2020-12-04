@@ -15,16 +15,19 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import duolingo.main.MainFrame;
 import duolingo.util.languageList;
 import implementations.CategoryImpl;
 import implementations.CourseImpl;
@@ -41,11 +44,13 @@ public class AdministrarCursos extends JPanel {
 	
 	private ArrayList<String> filteredCourses = new ArrayList<>();
 	private ArrayList<String> filteredCategories = new ArrayList<>();
+	
 
 	/**
 	 * Create the panel.
 	 */
-	public AdministrarCursos() {
+	public AdministrarCursos(MainFrame jf) {
+	
 		setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.75), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75) + 100));
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 		
@@ -354,8 +359,17 @@ public class AdministrarCursos extends JPanel {
 		buttonsThirdSectionPanel.setLayout(new GridLayout(2, 1, 0, 15));
 		
 		JButton addQuestion = new JButton("Agregar pregunta"); buttonsThirdSection.add(addQuestion);
-		buttonsThirdSectionPanel.add(addQuestion);
 		
+		
+		addQuestion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("boton pulsado");
+				jf.CambiarPanel(new AfegirExercici());
+			}
+		});
+		buttonsThirdSectionPanel.add(addQuestion);
 		JButton viewQuestions = new JButton("Visualizar pregunta"); buttonsThirdSection.add(viewQuestions);
 		buttonsThirdSectionPanel.add(viewQuestions);
 		

@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,19 +19,20 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import duolingo.panel.AdministrarCursos;
+import duolingo.panel.AfegirExercici;
 import implementations.UserImpl;
 import interfaces.IUser;
 
 public class MainFrame extends JFrame {
-
+	
+	
 	private JPanel contentPane;
 	public static Toolkit toolkit;
 	
 	public static JMenuBar menuBar;
 	public static JMenu mainMenu;
-
 	
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,6 +59,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		MainFrame mf=this;
 		toolkit = getToolkit();
 		setTitle("Duolingo");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/resources/images/duolingo40.png"));
@@ -81,7 +84,8 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setContentPane(new AdministrarCursos());
+				
+				setContentPane(new AdministrarCursos(mf));
 				repaint();
 				revalidate();
 			}
@@ -92,6 +96,13 @@ public class MainFrame extends JFrame {
 		mainMenu.add(administrarCursos);
 		
 		menuBar.add(mainMenu);
+		
+	}
+	public void CambiarPanel(JPanel panel) {
+		
+		setContentPane(panel);
+		repaint();
+		revalidate();
 		
 	}
 
