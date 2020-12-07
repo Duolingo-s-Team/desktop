@@ -18,10 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.mysql.cj.util.TestUtils;
+
 import duolingo.panel.AdministrarCursos;
 import duolingo.panel.AfegirExercici;
 import implementations.UserImpl;
 import interfaces.IUser;
+import test.Test;
 
 public class MainFrame extends JFrame {
 	
