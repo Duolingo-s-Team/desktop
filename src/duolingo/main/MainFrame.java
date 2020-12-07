@@ -17,11 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.json.simple.JSONObject;
+
 import com.mysql.cj.util.TestUtils;
 
 import duolingo.panel.AdministrarCursos;
 import implementations.UserImpl;
 import interfaces.IUser;
+import json.JsonDecode;
+import json.JsonEncode;
 import test.Test;
 
 public class MainFrame extends JFrame {
@@ -96,6 +100,8 @@ public class MainFrame extends JFrame {
 		
 		menuBar.add(mainMenu);
 		
+		JSONObject obj = JsonDecode.JsonGetContent(JsonEncode.jsonContentInsertTest("TIPUS_TEST", "Question", "Correct", "answer1,answer2,answer3"));
+		System.out.println(obj.get("Exercise_Type"));
 	}
 
 }

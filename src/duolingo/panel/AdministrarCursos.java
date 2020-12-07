@@ -407,7 +407,11 @@ public class AdministrarCursos extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
 				
-				// Abrir panel de Afegir Exercici
+				levelSelection = levelList.getSelectedValue();
+				
+				if (levelSelection != null) {
+					
+				}
 				
 			}
 		});
