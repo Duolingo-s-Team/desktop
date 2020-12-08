@@ -64,6 +64,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		MainFrame mf=this;
 		toolkit = getToolkit();
 		setTitle("Duolingo");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/resources/images/duolingo40.png"));
@@ -88,9 +89,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setContentPane(new AdministrarCursos());
-				repaint();
-				revalidate();
+				CambiarPanel(new AdministrarCursos(mf));
 			}
 			
 		});
@@ -102,6 +101,14 @@ public class MainFrame extends JFrame {
 		
 		JSONObject obj = JsonDecode.JsonGetContent(JsonEncode.jsonContentInsertTest("TIPUS_TEST", "Question", "Correct", "answer1,answer2,answer3"));
 		System.out.println(obj.get("Exercise_Type"));
+	}
+	
+	public void CambiarPanel(JPanel panel) {
+		
+		setContentPane(panel);
+		repaint();
+		revalidate();
+		
 	}
 
 }

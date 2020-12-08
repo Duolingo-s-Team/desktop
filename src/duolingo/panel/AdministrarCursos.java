@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import duolingo.main.MainFrame;
 import duolingo.util.languageList;
 import implementations.CategoryImpl;
 import implementations.CourseImpl;
@@ -59,7 +60,7 @@ public class AdministrarCursos extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AdministrarCursos() {
+	public AdministrarCursos(MainFrame jf) {
 		setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.75), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75) + 100));
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 		
@@ -371,8 +372,6 @@ public class AdministrarCursos extends JPanel {
 		});
 		
 		
-		
-		
 		// ===== TERCERA SECCION =====
 		
 		JPanel thirdSection = new JPanel();
@@ -410,7 +409,11 @@ public class AdministrarCursos extends JPanel {
 				levelSelection = levelList.getSelectedValue();
 				
 				if (levelSelection != null) {
-					
+					String[] labels = new String[3];
+					labels[0] = courseList.getSelectedValue();
+					labels[1] = categoryList.getSelectedValue();
+					labels[2] = levelList.getSelectedValue();
+					jf.CambiarPanel(new AfegirExercici(labels));
 				}
 				
 			}
