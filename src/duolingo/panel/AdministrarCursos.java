@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -259,6 +261,7 @@ public class AdministrarCursos extends JPanel {
 		
 		JButton addCategoryButton = new JButton("Agregar Categoria");
 		addCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addCategoryButton.setEnabled(false);
 		categoriesSecondSection.add(addCategoryButton);
 		
 		JPanel levelsSecondSection = new JPanel();
@@ -314,6 +317,8 @@ public class AdministrarCursos extends JPanel {
                 if (categorySelection != null) {
                 	filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(categorySelection.substring(0, categorySelection.indexOf(" ")), categorySelection.substring(categorySelection.lastIndexOf(" ") + 1, categorySelection.length())).getCourse_id());
                      updateJList(categoryList, filteredCategories);
+                     
+                     addCategoryButton.setEnabled(true);
 				}
                 
             }
@@ -371,6 +376,20 @@ public class AdministrarCursos extends JPanel {
 			}
 		});
 		
+		levelList.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				addLevelButton.setEnabled(false);				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		// ===== TERCERA SECCION =====
 		
@@ -415,7 +434,6 @@ public class AdministrarCursos extends JPanel {
 					labels[2] = levelList.getSelectedValue();
 					jf.CambiarPanel(new AfegirExercici(labels));
 				}
-				
 			}
 		});
 

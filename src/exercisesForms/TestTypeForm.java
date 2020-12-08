@@ -47,9 +47,10 @@ public class TestTypeForm extends JFrame {
 
 	public TestTypeForm(String levelName) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75 + 200)));
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
-		contentPane.setMinimumSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.5)));
-		contentPane.setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.5)));
+		contentPane.setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75 + 200)));
 		contentPane.setBorder(new EmptyBorder(25, 25, 25, 25));
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
@@ -144,7 +145,7 @@ public class TestTypeForm extends JFrame {
 				
 				if (!questionField.equals("") || !correctField.equals("") || !incorrect1Field.equals("") || !incorrect2Field.equals("")) {
 					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", questionField.getText(), 
-							correctField.getText(), incorrect1Field.getText()+","+incorrect2Field.getText());
+							correctField.getText(), incorrect1Field.getText()+";"+incorrect2Field.getText());
 					
 					exerciseManager.insertExercise(new Exercise("TEST_EX", 20, content, level));
 					
