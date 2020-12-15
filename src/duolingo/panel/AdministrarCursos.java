@@ -11,6 +11,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -28,19 +29,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import duolingo.main.MainFrame;
-import duolingo.util.languageList;
+import duolingo.util.implementation.LanguageListImpl;
 import implementations.CategoryImpl;
 import implementations.CourseImpl;
 import implementations.LevelImpl;
-import implementations.UserImpl;
 import interfaces.ICategory;
 import interfaces.ICourse;
 import interfaces.ILevel;
-import interfaces.IUser;
 import models.Category;
 import models.Course;
 import models.Level;
-import models.User;
 
 public class AdministrarCursos extends JPanel {
 	
@@ -59,6 +57,9 @@ public class AdministrarCursos extends JPanel {
 	private String categorySelection;
 	private String levelSelection;
 
+	private Vector<String> languages = new LanguageListImpl().getLanguagesFromFile("src/resources/data/languages.txt");
+
+	
 	/**
 	 * Create the panel.
 	 */
@@ -105,7 +106,7 @@ public class AdministrarCursos extends JPanel {
 		originLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		originLanguage.add(originLabel);
 		
-		JComboBox<String> originLanguageCombo = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
+		JComboBox<String> originLanguageCombo = new JComboBox<>(languages);
 		originLabel.setLabelFor(originLanguageCombo);
 		originLanguage.add(originLanguageCombo);
 		
@@ -119,7 +120,7 @@ public class AdministrarCursos extends JPanel {
 		destinationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		destinationLanguage.add(destinationLabel);
 		
-		JComboBox<String> destinationLanguageCombo = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
+		JComboBox<String> destinationLanguageCombo = new JComboBox<>(languages);
 		destinationLabel.setLabelFor(destinationLanguageCombo);
 		destinationLanguage.add(destinationLanguageCombo);
 		

@@ -1,37 +1,28 @@
 package exercisesForms;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import org.hibernate.engine.spi.ExecutableList;
-import org.json.simple.JSONObject;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
 
 import implementations.ExerciseImpl;
 import implementations.LevelImpl;
-import implementations.UserImpl;
 import interfaces.IExercise;
 import interfaces.ILevel;
-import interfaces.IUser;
-import json.JsonDecode;
 import json.JsonEncode;
 import models.Exercise;
 import models.Level;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 
 public class TestTypeForm extends JFrame {
 
@@ -144,10 +135,10 @@ public class TestTypeForm extends JFrame {
 				level = levelManager.getLevelByName(levelName);
 				
 				if (!questionField.equals("") || !correctField.equals("") || !incorrect1Field.equals("") || !incorrect2Field.equals("")) {
-					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", questionField.getText(), 
+					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", 25, 10, questionField.getText(), 
 							correctField.getText(), incorrect1Field.getText()+";"+incorrect2Field.getText());
 					
-					exerciseManager.insertExercise(new Exercise("TEST_EX", 20, content, level));
+					exerciseManager.insertExercise(new Exercise("TEST_EX", content, level));
 					
 					setVisible(false);
 				}

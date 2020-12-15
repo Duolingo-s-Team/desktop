@@ -1,15 +1,13 @@
 package duolingo.panel;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
-import org.json.simple.JSONObject;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,11 +23,6 @@ import implementations.ExerciseImpl;
 import implementations.LevelImpl;
 import interfaces.IExercise;
 import interfaces.ILevel;
-import json.JsonDecode;
-import models.Exercise;
-import models.Level;
-
-import java.awt.Font;
 
 public class AfegirExercici extends JPanel {
 

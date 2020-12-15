@@ -1,4 +1,4 @@
-package duolingo.util;
+package duolingo.util.implementation;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
-public class languageList {
+import duolingo.util.interfaces.ILanguageList;
+
+public class LanguageListImpl implements ILanguageList {
 	
-	public static Vector<String> getLanguagesFromFile(String url) {
+	public Vector<String> getLanguagesFromFile(String url) {
 		Vector<String> languages = new Vector<>();
 		
 		File f = new File(url);
