@@ -437,6 +437,18 @@ public class AdministrarCursos extends JPanel {
 				}
 			}
 		});
+		
+		viewQuestions.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				levelSelection = levelList.getSelectedValue();
+				
+				if (levelSelection != null) {
+					new ScrollExercise(levelManager.getLevelByName(levelSelection));
+				}
+			}
+		});
 
 	}
 	

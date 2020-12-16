@@ -28,7 +28,6 @@ public class MainFrame extends JFrame {
 	
 	public static JMenuBar menuBar;
 	public static JMenu mainMenu;
-
 	
 
 	/**
@@ -94,7 +93,6 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void CambiarPanel(JPanel panel) {
-		
 		setContentPane(panel);
 		repaint();
 		revalidate();

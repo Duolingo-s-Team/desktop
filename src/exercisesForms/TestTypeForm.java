@@ -3,6 +3,7 @@ package exercisesForms;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -138,7 +139,7 @@ public class TestTypeForm extends JFrame {
 					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", 25, 10, questionField.getText(), 
 							correctField.getText(), incorrect1Field.getText()+";"+incorrect2Field.getText());
 					
-					exerciseManager.insertExercise(new Exercise("TEST_EX", content, level));
+					exerciseManager.insertExercise(new Exercise("Exercise " + getLastExerciseIndex(level), content, level));
 					
 					setVisible(false);
 				}
@@ -146,8 +147,12 @@ public class TestTypeForm extends JFrame {
 			}
 		});
 		
-		
-		
+	}
+	
+	public int getLastExerciseIndex(Level level) {
+		List<Exercise> exercises = new ExerciseImpl().getExercisesByLevelId(level.getLevel_id());
+				
+		return Integer.parseInt(exercises.get(exercises.size() - 1).getExercise_name().substring(exercises.get(exercises.size() - 1).getExercise_name().lastIndexOf(" ") + 1)) + 1;
 	}
 
 }
