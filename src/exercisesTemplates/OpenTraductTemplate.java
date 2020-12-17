@@ -27,7 +27,7 @@ public class OpenTraductTemplate extends JFrame {
 	private JPanel contentPane;
 	private JTextField response;
 	public OpenTraductTemplate(Exercise exercise) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth()), (int) (this.getToolkit().getScreenSize().getHeight())));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
@@ -91,7 +91,7 @@ public class OpenTraductTemplate extends JFrame {
 				
 				if (!response.getText().equals("")) {
 					for (int i = 0; i < jsonarray.size(); i++) {
-						if (jsonarray.get(i).toString().equals(response.getText())) {
+						if (fixInput(jsonarray.get(i).toString()).equals(fixInput(response.getText()))) {
 							correct.setText("Result = CORRECT");
 							break;
 						} else {
@@ -103,5 +103,10 @@ public class OpenTraductTemplate extends JFrame {
 		});
 		
 		
+		setVisible(true);
+	}
+	
+	public static String fixInput(String answer) {
+	    return answer.replaceAll(".*([.:,;!\"·$%&/()=?¿¡]+).*", "").replaceAll(".*[\\s]+.*", " ").toLowerCase();
 	}
 }

@@ -1,15 +1,26 @@
 package exercisesForms;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import exercisesTemplates.OpenTraductTemplate;
 import implementations.ExerciseImpl;
 import implementations.LevelImpl;
 import interfaces.IExercise;
@@ -18,34 +29,19 @@ import json.JsonEncode;
 import models.Exercise;
 import models.Level;
 
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.management.openmbean.OpenDataException;
-import javax.swing.AbstractListModel;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-import javax.swing.JList;
-
 public class openTraductForm extends JFrame {
 
 	private JPanel contentPane;
 	private ArrayList<JList<String>> listThirdPanel = new ArrayList<>();
 	private ArrayList<String> sentencesArray = new ArrayList<>();
 	String[] sentences;
+	
 	/**
 	 * Create the frame.
 	 */
 	public openTraductForm(String levelName) {
 		setSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.5)));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() ), (int) (this.getToolkit().getScreenSize().getHeight())));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
@@ -156,10 +152,10 @@ public class openTraductForm extends JFrame {
 				
 				level = levelManager.getLevelByName(levelName);
 				
-				if (!translateSentence.equals("") && sentencesArray.size() > 0) {
-					String content = ""; //JsonEncode.jsonContentInsertOpenTraduct("TRADUCCIO_OBERTA", 25, 10, sentence.getText(), llenarFrases(sentencesArray));
+				if (sentencesArray.size() > 1) {
+					String content = JsonEncode.jsonContentInsertOpenTraduct("TRADUCCIO_OBERTA", 25, 10, sentence.getText(), llenarFrases(sentencesArray));
 					
-					exerciseManager.insertExercise(new Exercise("TRADUCCIO_OBERTA", content, level));
+					exerciseManager.insertExercise(new Exercise("Exercise " + getLastExerciseIndex(level), content, level));
 					
 					setVisible(false);
 				}
@@ -177,6 +173,12 @@ public class openTraductForm extends JFrame {
 			}
 		});
 		
+	}
+	
+	public int getLastExerciseIndex(Level level) {
+		List<Exercise> exercises = new ExerciseImpl().getExercisesByLevelId(level.getLevel_id());
+				
+		return Integer.parseInt(exercises.get(exercises.size() - 1).getExercise_name().substring(exercises.get(exercises.size() - 1).getExercise_name().lastIndexOf(" ") + 1)) + 1;
 	}
 	
 	public static void updateJList(JList<String> list, ArrayList<String> data) {

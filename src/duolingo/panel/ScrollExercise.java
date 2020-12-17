@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import exercisesTemplates.OpenTraductTemplate;
 import exercisesTemplates.TestTypeTemplate;
 import implementations.ExerciseImpl;
 import interfaces.IExercise;
@@ -62,7 +63,17 @@ public class ScrollExercise extends JFrame {
 					
 					Exercise selected = exerciseManager.getExerciseByName(b.getName().substring(0, b.getName().indexOf(" -")));
 					
-					new TestTypeTemplate(selected);
+					switch ((String) JsonDecode.JsonGetContent(selected.getContent()).get("exerciseType")) {
+					case "TIPUS_TEST":
+						new TestTypeTemplate(selected);
+						break;
+					case "TRADUCCIO_OBERTA":
+						new OpenTraductTemplate(selected);				
+						break;
+					default:
+						System.out.println("Invalid Option in Switch");
+						break;
+					}
 				}
 			});
 			

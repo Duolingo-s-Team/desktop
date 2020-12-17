@@ -2,41 +2,37 @@ package exercisesTemplates;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import models.Exercise;
-import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import json.JsonDecode;
-
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.image.ColorModel;
-import java.awt.event.ActionEvent;
+import models.Exercise;
 
 public class TestTypeTemplate extends JFrame {
 
 	private JPanel contentPane;
+	
 	/**
 	 * Create the frame.
 	 */
 	public TestTypeTemplate(Exercise exercise) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth()), (int) (this.getToolkit().getScreenSize().getHeight())));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
@@ -272,6 +268,7 @@ public class TestTypeTemplate extends JFrame {
 			}
 		});
 		
+		setVisible(true);
 	}
 
 }
