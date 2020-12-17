@@ -7,8 +7,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -25,19 +28,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import duolingo.util.languageList;
+import duolingo.main.MainFrame;
+import duolingo.util.implementation.LanguageListImpl;
 import implementations.CategoryImpl;
 import implementations.CourseImpl;
 import implementations.LevelImpl;
-import implementations.UserImpl;
 import interfaces.ICategory;
 import interfaces.ICourse;
 import interfaces.ILevel;
-import interfaces.IUser;
 import models.Category;
 import models.Course;
 import models.Level;
-import models.User;
+
 
 public class AdministrarCursos extends JPanel {
 	
@@ -56,10 +58,13 @@ public class AdministrarCursos extends JPanel {
 	private String categorySelection;
 	private String levelSelection;
 
+	private Vector<String> languages = new LanguageListImpl().getLanguagesFromFile("src/resources/data/languages.txt");
+
+	
 	/**
 	 * Create the panel.
 	 */
-	public AdministrarCursos() {
+	public AdministrarCursos(MainFrame jf) {
 		setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.75), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75) + 100));
 		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 		
@@ -102,7 +107,7 @@ public class AdministrarCursos extends JPanel {
 		originLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		originLanguage.add(originLabel);
 		
-		JComboBox<String> originLanguageCombo = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
+		JComboBox<String> originLanguageCombo = new JComboBox<>(languages);
 		originLabel.setLabelFor(originLanguageCombo);
 		originLanguage.add(originLanguageCombo);
 		
@@ -116,7 +121,7 @@ public class AdministrarCursos extends JPanel {
 		destinationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		destinationLanguage.add(destinationLabel);
 		
-		JComboBox<String> destinationLanguageCombo = new JComboBox<>(languageList.getLanguagesFromFile("src/resources/data/languages.txt"));
+		JComboBox<String> destinationLanguageCombo = new JComboBox<>(languages);
 		destinationLabel.setLabelFor(destinationLanguageCombo);
 		destinationLanguage.add(destinationLanguageCombo);
 		
@@ -258,6 +263,7 @@ public class AdministrarCursos extends JPanel {
 		
 		JButton addCategoryButton = new JButton("Agregar Categoria");
 		addCategoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addCategoryButton.setEnabled(false);
 		categoriesSecondSection.add(addCategoryButton);
 		
 		JPanel levelsSecondSection = new JPanel();
@@ -313,6 +319,8 @@ public class AdministrarCursos extends JPanel {
                 if (categorySelection != null) {
                 	filteredCategories = getCategoryNamesByCourseId(courseManager.getCourseByLanguage(categorySelection.substring(0, categorySelection.indexOf(" ")), categorySelection.substring(categorySelection.lastIndexOf(" ") + 1, categorySelection.length())).getCourse_id());
                      updateJList(categoryList, filteredCategories);
+                     
+                     addCategoryButton.setEnabled(true);
 				}
                 
             }
@@ -370,7 +378,20 @@ public class AdministrarCursos extends JPanel {
 			}
 		});
 		
-		
+		levelList.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				addLevelButton.setEnabled(false);				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
 		
 		
 		// ===== TERCERA SECCION =====
@@ -406,9 +427,28 @@ public class AdministrarCursos extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
-				
 				// Abrir panel de Afegir Exercici
+				levelSelection = levelList.getSelectedValue();
 				
+				if (levelSelection != null) {
+					String[] labels = new String[3];
+					labels[0] = courseList.getSelectedValue();
+					labels[1] = categoryList.getSelectedValue();
+					labels[2] = levelList.getSelectedValue();
+					jf.CambiarPanel(new AfegirExercici(labels));
+				}
+			}
+		});
+		
+		viewQuestions.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				levelSelection = levelList.getSelectedValue();
+				
+				if (levelSelection != null) {
+					new ScrollExercise(levelManager.getLevelByName(levelSelection));
+				}
 			}
 		});
 

@@ -17,12 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import com.mysql.cj.util.TestUtils;
-
 import duolingo.panel.AdministrarCursos;
 import implementations.UserImpl;
 import interfaces.IUser;
-import test.Test;
 
 public class MainFrame extends JFrame {
 
@@ -31,7 +28,6 @@ public class MainFrame extends JFrame {
 	
 	public static JMenuBar menuBar;
 	public static JMenu mainMenu;
-
 	
 
 	/**
@@ -60,6 +56,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		MainFrame mf=this;
 		toolkit = getToolkit();
 		setTitle("Duolingo");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("src/resources/images/duolingo40.png"));
@@ -84,9 +81,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setContentPane(new AdministrarCursos());
-				repaint();
-				revalidate();
+				CambiarPanel(new AdministrarCursos(mf));
 			}
 			
 		});
@@ -95,6 +90,13 @@ public class MainFrame extends JFrame {
 		mainMenu.add(administrarCursos);
 		
 		menuBar.add(mainMenu);
+
+	}
+	
+	public void CambiarPanel(JPanel panel) {
+		setContentPane(panel);
+		repaint();
+		revalidate();
 		
 	}
 
