@@ -107,6 +107,6 @@ public class OpenTraductTemplate extends JFrame {
 	}
 	
 	public static String fixInput(String answer) {
-	    return answer.replaceAll(".*([.:,;!\"·$%&/()=?¿¡]+).*", "").replaceAll(".*[\\s]+.*", " ").toLowerCase();
+	    return answer.replaceAll(".*([.:,;!\"·$%&/()=?¿¡]+).*", "").replaceAll("[\\s]+", " ").toLowerCase();
 	}
 }
