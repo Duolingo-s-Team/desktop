@@ -90,6 +90,7 @@ public class MainFrame extends JFrame {
 		mainMenu.add(administrarCursos);
 		
 		menuBar.add(mainMenu);
+
 	}
 	
 	public void CambiarPanel(JPanel panel) {

@@ -135,7 +135,7 @@ public class TestTypeForm extends JFrame {
 				
 				level = levelManager.getLevelByName(levelName);
 				
-				if (!questionField.equals("") || !correctField.equals("") || !incorrect1Field.equals("") || !incorrect2Field.equals("")) {
+				if (!questionField.getText().equals("") || !correctField.getText().equals("") || !incorrect1Field.getText().equals("") || !incorrect2Field.getText().equals("")) {
 					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", 25, 10, questionField.getText(), 
 							correctField.getText(), incorrect1Field.getText()+";"+incorrect2Field.getText());
 					

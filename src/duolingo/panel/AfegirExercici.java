@@ -19,6 +19,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import exercisesForms.TestTypeForm;
+import exercisesForms.openTraductForm;
 import implementations.ExerciseImpl;
 import implementations.LevelImpl;
 import interfaces.IExercise;
@@ -123,7 +124,7 @@ public class AfegirExercici extends JPanel {
 		Caracteristicas.add(tree, "2, 22, 3, 1, fill, fill");
 		Botones.setLayout(new GridLayout(0, 2, 10, 10));
 		
-		JButton btnNewButton_1 = new JButton("TIPUS TEST");
+		JButton btnNewButton_1 = new JButton("TIPUS_TEST");
 		Botones.add(btnNewButton_1);
 		
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -135,8 +136,17 @@ public class AfegirExercici extends JPanel {
 			}
 		});
 		
-		JButton btnNewButton_2 = new JButton("New button");
+		JButton btnNewButton_2 = new JButton("TRADUCCIO_OBERTA");
 		Botones.add(btnNewButton_2);
+		
+		btnNewButton_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				openTraductForm otf = new openTraductForm(labels[2]);
+				otf.setVisible(true);
+			}
+		});
 		
 		JButton btnNewButton_4 = new JButton("New button");
 		Botones.add(btnNewButton_4);

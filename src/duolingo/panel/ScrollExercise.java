@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import exercisesTemplates.TestTypeTemplate;
 import implementations.ExerciseImpl;
 import interfaces.IExercise;
 import json.JsonDecode;
@@ -61,7 +62,7 @@ public class ScrollExercise extends JFrame {
 					
 					Exercise selected = exerciseManager.getExerciseByName(b.getName().substring(0, b.getName().indexOf(" -")));
 					
-					// new ExercisePreviewFrame(selected); // <------------------------------------------------------------------------------------------------ SPEC 40
+					new TestTypeTemplate(selected);
 				}
 			});
 			
