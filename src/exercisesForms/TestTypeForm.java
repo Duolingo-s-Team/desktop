@@ -28,6 +28,9 @@ import models.Level;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import exercisesTemplates.TestTypeTemplate;
+
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -144,10 +147,10 @@ public class TestTypeForm extends JFrame {
 				level = levelManager.getLevelByName(levelName);
 				
 				if (!questionField.equals("") || !correctField.equals("") || !incorrect1Field.equals("") || !incorrect2Field.equals("")) {
-					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", questionField.getText(), 
+					String content = JsonEncode.jsonContentInsertTest("TIPUS_TEST", 25, 10, questionField.getText(), 
 							correctField.getText(), incorrect1Field.getText()+";"+incorrect2Field.getText());
 					
-					exerciseManager.insertExercise(new Exercise("TEST_EX", 20, content, level));
+					exerciseManager.insertExercise(new Exercise("TEST_EX", content, level));
 					
 					setVisible(false);
 				}

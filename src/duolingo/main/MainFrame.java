@@ -98,9 +98,7 @@ public class MainFrame extends JFrame {
 		mainMenu.add(administrarCursos);
 		
 		menuBar.add(mainMenu);
-		
-		JSONObject obj = JsonDecode.JsonGetContent(JsonEncode.jsonContentInsertTest("TIPUS_TEST", "Question", "Correct", "answer1,answer2,answer3"));
-		System.out.println(obj.get("Exercise_Type"));
+
 	}
 	
 	public void CambiarPanel(JPanel panel) {
