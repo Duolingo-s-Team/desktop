@@ -38,7 +38,7 @@ public class TestTypeForm extends JFrame {
 	private JButton saveExerciseButton;
 
 	public TestTypeForm(String levelName) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75 + 200)));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();

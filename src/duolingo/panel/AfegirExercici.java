@@ -1,13 +1,16 @@
 package duolingo.panel;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,7 +35,6 @@ public class AfegirExercici extends JPanel {
 	
 	public AfegirExercici(String[] labels) {
 
-		//new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.5), (int) (this.getToolkit().getScreenSize().getHeight() / 1.5));
 		setPreferredSize(new Dimension((int) (this.getToolkit().getScreenSize().getWidth() / 1.75), (int) (this.getToolkit().getScreenSize().getHeight() / 1.75) + 100));
 
 		JPanel Caracteristicas = new JPanel();
@@ -101,7 +103,7 @@ public class AfegirExercici extends JPanel {
 		cursolbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Caracteristicas.add(cursolbl, "4, 6");
 		
-		JLabel lblNewLabel_1 = new JLabel("Categor\u00EDas:");
+		JLabel lblNewLabel_1 = new JLabel("Categorias:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Caracteristicas.add(lblNewLabel_1, "2, 8");
 		
@@ -117,17 +119,19 @@ public class AfegirExercici extends JPanel {
 		nivellbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Caracteristicas.add(nivellbl, "4, 14");
 		
-		JLabel lblNewLabel_3 = new JLabel("Arbol de categor\u00EDas y niveles del curso");
+		JLabel lblNewLabel_3 = new JLabel("Arbol de categorias y niveles del curso");
 		Caracteristicas.add(lblNewLabel_3, "2, 18, 3, 1");
 		
 		JTree tree = new JTree();
 		Caracteristicas.add(tree, "2, 22, 3, 1, fill, fill");
-		Botones.setLayout(new GridLayout(0, 2, 10, 10));
+		Botones.setLayout(new GridLayout(4, 2, 10, 10));
 		
-		JButton btnNewButton_1 = new JButton("TIPUS_TEST");
-		Botones.add(btnNewButton_1);
+		ArrayList<JButton> buttons = new ArrayList<>();
 		
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton tipusTest = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/TIPUS_TEST.png")));
+		buttons.add(tipusTest);
+		
+		tipusTest.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -136,10 +140,10 @@ public class AfegirExercici extends JPanel {
 			}
 		});
 		
-		JButton btnNewButton_2 = new JButton("TRADUCCIO_OBERTA");
-		Botones.add(btnNewButton_2);
+		JButton traduccioOberta = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/TRADUCCIO_OBERTA.png")));
+		buttons.add(traduccioOberta);
 		
-		btnNewButton_2.addActionListener(new ActionListener() {
+		traduccioOberta.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -148,20 +152,29 @@ public class AfegirExercici extends JPanel {
 			}
 		});
 		
-		JButton btnNewButton_4 = new JButton("New button");
-		Botones.add(btnNewButton_4);
+		JButton listeningObert = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/LISTENING_OBERT.png")));
+		buttons.add(listeningObert);
 		
-		JButton btnNewButton = new JButton("New button");
-		Botones.add(btnNewButton);
+		JButton traduccioReordena = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/TRADUCCIO_REORDENA_PARAULES.png")));
+		buttons.add(traduccioReordena);
 		
-		JButton btnNewButton_5 = new JButton("New button");
-		Botones.add(btnNewButton_5);
+		JButton listeningReordena = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/LISTENING_REORDENA.png")));
+		buttons.add(listeningReordena);
 		
-		JButton btnNewButton_6 = new JButton("New button");
-		Botones.add(btnNewButton_6);
+		JButton ompleParaula = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/OMPLE_UNA_PARAULA.png")));
+		buttons.add(ompleParaula);
 		
-		JButton btnNewButton_3 = new JButton("New button");
-		Botones.add(btnNewButton_3);
+		JButton aparellaParaula = new JButton(new ImageIcon(this.getToolkit().getImage("src/resources/images/TRADUCCIO_REORDENA_PARAULES.png")));
+		buttons.add(aparellaParaula);
+		
+		
+		for (JButton j : buttons) {
+			j.setFocusable(false);
+			j.setOpaque(true);
+			j.setBackground(Color.WHITE);
+			Botones.add(j);
+		}
+		
 		setLayout(groupLayout);
 		
 	}
