@@ -177,8 +177,12 @@ public class openTraductForm extends JFrame {
 	
 	public int getLastExerciseIndex(Level level) {
 		List<Exercise> exercises = new ExerciseImpl().getExercisesByLevelId(level.getLevel_id());
-				
-		return Integer.parseInt(exercises.get(exercises.size() - 1).getExercise_name().substring(exercises.get(exercises.size() - 1).getExercise_name().lastIndexOf(" ") + 1)) + 1;
+	    if(exercises.size()>1) {
+	    	return Integer.parseInt(exercises.get(exercises.size() - 1).getExercise_name().substring(exercises.get(exercises.size() - 1).getExercise_name().lastIndexOf(" ") + 1)) + 1;
+	    }else {
+	    	return 1;
+	    }
+		
 	}
 	
 	public static void updateJList(JList<String> list, ArrayList<String> data) {
